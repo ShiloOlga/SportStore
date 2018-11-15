@@ -11,7 +11,9 @@
         <a class="navbar-brand" href="#">SPORT STORE</a>
     </div>
     <div class="row panel">
-        <div id="categories" class="col-xs-3">Fil later</div>
+        <div id="categories" class="col-xs-3">
+            @Html.Action("Menu", "Nav")
+        </div>
         <div class="col-xs-8">
             @RenderBody()
         </div>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SportStore.Domain.Entities;
+using SportStore.WebUI.Controllers;
+using SportStore.WebUI.Models;
 using System.Linq;
 
 namespace SportStore.UnitTests
@@ -95,6 +97,44 @@ namespace SportStore.UnitTests
             cart.Clear();
 
             Assert.AreEqual(0, cart.Lines.Count());
+        }
+
+        [TestMethod]
+        public void Can_Add_To_Cart()
+        {
+            var mock = new ProductRepositoryMock();
+            var cart = new Cart();
+            var target = new CartController(mock.ProductRepository);
+
+            target.AddToCart(cart, 1, null);
+
+            Assert.AreEqual(1, cart.Lines.Count());
+            Assert.AreEqual(1, cart.Lines.ToArray()[0].Product.ProductId);
+        }
+
+        [TestMethod]
+        public void Adding_Product_To_Cart_Goes_To_Cart_Screen()
+        {
+            var mock = new ProductRepositoryMock();
+            var cart = new Cart();
+            var target = new CartController(mock.ProductRepository);
+
+            var result = target.AddToCart(cart, 2, "url");
+
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+            Assert.AreEqual("url", result.RouteValues["returnUrl"]);
+        }
+
+        [TestMethod]
+        public void Can_View_Cart_Content()
+        {
+            var cart = new Cart();
+            var target = new CartController(null);
+
+            var result = (CartIndexViewModel)target.Index(cart, "url").ViewData.Model;
+
+            Assert.AreSame(cart, result.Cart);
+            Assert.AreEqual("url", result.ReturnUrl);
         }
     }
 }

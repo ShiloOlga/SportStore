@@ -5,6 +5,7 @@ using SportStore.Domain.Concrete;
 using SportStore.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -34,6 +35,12 @@ namespace SportStore.WebUI.Infrastructure
         private void AddBindings()
         {
             _kernel.Bind<IProductRepository>().To<EFProductRepository>();
+
+            var settings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+            _kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("settings", settings);
         }
     }
 }

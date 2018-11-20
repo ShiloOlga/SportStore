@@ -17,7 +17,7 @@ namespace SportStore.WebUI.Controllers
         {
             ViewBag.SelectedCategory = category;
             var categories = _productRepository.Products.Select(p => p.Category).Distinct().OrderBy(p => p);
-            return PartialView(categories);
+            return PartialView("FlexMenu", categories);
         }
     }
 }

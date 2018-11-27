@@ -3,6 +3,8 @@ using Ninject;
 using SportStore.Domain.Abstract;
 using SportStore.Domain.Concrete;
 using SportStore.Domain.Entities;
+using SportStore.WebUI.Infrastructure.Abstract;
+using SportStore.WebUI.Infrastructure.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -41,6 +43,7 @@ namespace SportStore.WebUI.Infrastructure
                 WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
             };
             _kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("settings", settings);
+            _kernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
     }
 }

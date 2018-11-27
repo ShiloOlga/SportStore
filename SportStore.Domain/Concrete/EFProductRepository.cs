@@ -24,6 +24,8 @@ namespace SportStore.Domain.Concrete
                     entry.Description = product.Description;
                     entry.Price = product.Price;
                     entry.Category = product.Category;
+                    entry.ImageData = product.ImageData;
+                    entry.ImageMimeType = product.ImageMimeType;
                 }
             }
             _context.SaveChanges();
